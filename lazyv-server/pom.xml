@@ -63,7 +63,8 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/resources/dll</directory>
-                                     <!-- TODO: bugreport for this shit <filtering>true</filtering>-->
+<!--                                      TODO: bugreport for this shit-->
+<!--                                    <filtering>true</filtering>-->
                                 </resource>
                             </resources>
                         </configuration>
