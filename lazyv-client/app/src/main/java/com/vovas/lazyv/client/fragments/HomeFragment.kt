@@ -27,21 +27,36 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         button.setOnClickListener {
-            goToWeb()
+            goToWeb(3)
+        }
+        button2.setOnClickListener {
+            goToWeb(6)
+        }
+        button3.setOnClickListener {
+            goToWeb(5)
+        }
+        button4.setOnClickListener {
+            goToWeb(4)
+        }
+        button5.setOnClickListener {
+            goToWeb(0)
         }
 
+        button6.setOnClickListener {
+            goToWeb(2)
+        }
     }
 
-    private fun goToWeb() {
+    private fun goToWeb(code: Int) {
         var client = OkHttpClient()
         var formBody = FormBody
             .Builder()
-            .add("code", "1")
+            .add("code", code.toString())
             .add("passcode", "kek")
             .build()
         var request = Request
             .Builder()
-            .url("http:192.168.43.229:8777/press")
+            .url("http:10.1.1.36:8080/press")
             .post(formBody)
             .build()
         var call = client.newCall(request)
