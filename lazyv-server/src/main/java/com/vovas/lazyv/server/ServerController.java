@@ -4,7 +4,12 @@ import com.vovas.lazyv.server.executors.KeyExecutor;
 import com.vovas.lazyv.server.executors.KeyExecutorMock;
 import com.vovas.lazyv.server.request.KeyRequest;
 import org.apache.log4j.Logger;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 public class ServerController {
@@ -14,8 +19,8 @@ public class ServerController {
     private KeyExecutor keyExecutor = new KeyExecutorMock();
     private NativeEasyKeySender nativeKeyExecutor = new NativeEasyKeySender();
 
-    private ServiceLazyv serviceLazyv = new ServiceLazyv(
-            new ConfigServer("VovasHost", "8777", "127.0.0.1", "Started", "8777", true));
+    @Autowired
+    private ServiceLazyv serviceLazyv;
 
     @GetMapping("alive")
     public String aliveString() {
@@ -57,5 +62,13 @@ public class ServerController {
         serviceLazyv.getConfigServer().setIsVisible(isVisible);
         return "OK";
     }
+
+    @GetMapping("info")
+    public ConfigServer getServerInfo(){
+        ConfigServer config = serviceLazyv.getConfigServer();
+        return config;
+//                new ServerInfoResponse(Util.getNetInterfaces(),config.getHostName(),config.getPasscode(),config.getServerState(),config.getPort());
+    }
+
 
 }

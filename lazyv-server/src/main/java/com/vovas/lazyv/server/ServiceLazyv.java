@@ -1,16 +1,14 @@
 package com.vovas.lazyv.server;
 
-public class ServiceLazyv
-{
+import org.springframework.beans.factory.annotation.Autowired;
 
-  private ConfigServer configServer;
 
-  public ServiceLazyv(ConfigServer configServer)
-  {
-    this.configServer=configServer;
-  }
+public class ServiceLazyv {
 
-  public ConfigServer getConfigServer() {
-    return configServer;
-  }
+    @Autowired
+    private ConfigServer configServer;
+
+    public ConfigServer getConfigServer() {
+        return configServer;
+    }
 }

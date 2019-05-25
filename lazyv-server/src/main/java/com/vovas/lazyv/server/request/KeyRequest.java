@@ -1,9 +1,5 @@
 package com.vovas.lazyv.server.request;
 
-//
-//import javax.persistence.Entity;
-//
-//@Entity
 public class KeyRequest {
     private int code;
     private String passcode;

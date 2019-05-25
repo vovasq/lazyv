@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
             .build()
         var request = Request
             .Builder()
-            .url("http:10.1.1.36:8080/press")
+            .url("http:10.1.1.36:8777/press")
             .post(formBody)
             .build()
         var call = client.newCall(request)
