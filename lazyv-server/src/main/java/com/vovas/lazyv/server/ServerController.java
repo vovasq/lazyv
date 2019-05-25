@@ -3,11 +3,11 @@ package com.vovas.lazyv.server;
 import com.vovas.lazyv.server.executors.KeyExecutor;
 import com.vovas.lazyv.server.executors.KeyExecutorMock;
 import com.vovas.lazyv.server.request.KeyRequest;
+import com.vovas.lazyv.server.request.UpdateConfigServerRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -56,19 +56,19 @@ public class ServerController {
     }
 
     @PostMapping("update")
-    public String updateServerConfig(@RequestBody String hostName, String passcode, boolean isVisible) {
-        serviceLazyv.getConfigServer().setHostName(hostName);
-        serviceLazyv.getConfigServer().setPasscode(passcode);
-        serviceLazyv.getConfigServer().setIsVisible(isVisible);
+    public String updateServerConfig(UpdateConfigServerRequest request) {
+        serviceLazyv.getConfigServer().setHostName(request.getHostName());
+        serviceLazyv.getConfigServer().setPasscode(request.getPasscode());
+        serviceLazyv.getConfigServer().setIsVisible(request.isVisible());
+        LOG.info("Update info with params: hostname = " + request);
         return "OK";
     }
 
     @GetMapping("info")
-    public ConfigServer getServerInfo(){
+    public ConfigServer getServerInfo() {
         ConfigServer config = serviceLazyv.getConfigServer();
         return config;
 //                new ServerInfoResponse(Util.getNetInterfaces(),config.getHostName(),config.getPasscode(),config.getServerState(),config.getPort());
     }
-
 
 }

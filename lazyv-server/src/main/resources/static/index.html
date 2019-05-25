@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
-    <title>Hello, world!</title>
+    <title>LazyV Server</title>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark">
@@ -26,14 +26,14 @@
     <div class="form-group row">
         <label for="inputHost" class="col-sm-2 col-form-label">HostName</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputHost" placeholder="VovasHost">
+            <input type="email" class="form-control" id="inputHost"  value="VovasHost">
         </div>
     </div>
 
     <div class="form-group row">
         <label for="inputPasscode" class="col-sm-2 col-form-label">Passcode</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPasscode" placeholder="****">
+            <input type="password" class="form-control" id="inputPasscode" value="****">
         </div>
     </div>
 
@@ -65,7 +65,7 @@
         </label>
     </div>
 
-    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn-primary" id="updateButton">Update</button>
 
 </form>
 </div>
