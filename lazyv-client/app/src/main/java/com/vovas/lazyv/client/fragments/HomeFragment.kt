@@ -1,6 +1,7 @@
 package com.vovas.lazyv.client.fragments
 
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -12,6 +13,7 @@ import com.vovas.lazyv.client.MainActivity
 
 import com.vovas.lazyv.client.R
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_settings.*
 import okhttp3.*
 import java.io.IOException
 
@@ -48,20 +50,36 @@ class HomeFragment : Fragment() {
     }
 
     private fun goToWeb(code: Int) {
+        val passcode = requireContext()
+            .getSharedPreferences(R.string.server_pref.toString(), Context.MODE_PRIVATE)
+            .getString(R.string.passcode.toString(), R.string.default_passcode.toString())!!
+        val ipAddress = requireContext()
+            .getSharedPreferences(R.string.server_pref.toString(), Context.MODE_PRIVATE)
+            .getString(R.string.ip_address.toString(), R.string.default_ip.toString())!!
+        val port = requireContext()
+            .getSharedPreferences(R.string.server_pref.toString(), Context.MODE_PRIVATE)
+            .getString(R.string.port.toString(), R.string.default_passcode.toString())!!
+        Log.d(TAG,"HOME frag passcode = $passcode, $ipAddress, $port")
         var client = OkHttpClient()
         var formBody = FormBody
             .Builder()
             .add("code", code.toString())
-            .add("passcode", "kek")
+            .add("passcode", passcode)
             .build()
+        var url = "http:$ipAddress:$port/press"
+        Log.d(TAG, "url = $url")
         var request = Request
             .Builder()
-            .url("http:10.1.1.36:8080/press")
+            .url(url)
             .post(formBody)
             .build()
+        Log.d(TAG, "url is $url" )
         var call = client.newCall(request)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireContext(), "Wrong address", Toast.LENGTH_SHORT).show()
+                }
                 Log.d(TAG, "upali $e")
             }
 
@@ -70,7 +88,6 @@ class HomeFragment : Fragment() {
                 Log.d(TAG, "received json: $json")
             }
         })
-//        var response = call.execute()
     }
 
     companion object {
