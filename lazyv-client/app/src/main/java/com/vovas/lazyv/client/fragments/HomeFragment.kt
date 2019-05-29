@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
         val port = requireContext()
             .getSharedPreferences(R.string.server_pref.toString(), Context.MODE_PRIVATE)
             .getString(R.string.port.toString(), R.string.default_passcode.toString())!!
-        Log.d(TAG,"HOME frag passcode = $passcode, $ipAddress, $port")
+        Log.d(TAG, "HOME frag passcode = $passcode, $ipAddress, $port")
         var client = OkHttpClient()
         var formBody = FormBody
             .Builder()
@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
             .url(url)
             .post(formBody)
             .build()
-        Log.d(TAG, "url is $url" )
+        Log.d(TAG, "url is $url")
         var call = client.newCall(request)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -85,6 +85,16 @@ class HomeFragment : Fragment() {
 
             override fun onResponse(call: Call, response: Response) {
                 val json = response.body().toString()
+                if (json.contains("WRONG CODE")) {
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Wrong passcode", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                if (json.contains("SERVER IS OFF")) {
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Server is off", Toast.LENGTH_SHORT).show()
+                    }
+                }
                 Log.d(TAG, "received json: $json")
             }
         })

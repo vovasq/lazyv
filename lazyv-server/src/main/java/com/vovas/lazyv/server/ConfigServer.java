@@ -52,7 +52,7 @@ public class ConfigServer
     this.isVisible=isVisible;
   }
 
-  private static List<NetInterface> initNetInterfaces() throws SocketException {
+  public  List<NetInterface> initNetInterfaces() throws SocketException {
     Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
     List<NetInterface> res = new ArrayList<>();
     for (NetworkInterface netint : Collections.list(nets)) {

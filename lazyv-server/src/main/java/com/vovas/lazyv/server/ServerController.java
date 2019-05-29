@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.SocketException;
+
 
 @RestController
 public class ServerController {
@@ -37,8 +39,15 @@ public class ServerController {
     public String pressKey(KeyRequest request) {
 
         LOG.info("Present key with code: " + request);
-        nativeKeyExecutor.sendEasyKey(request.getCode());
-        return "OK";
+        if (request.getPasscode().equals(getConfigServer().getPasscode())
+                && getConfigServer().getIsVisible()) {
+            nativeKeyExecutor.sendEasyKey(request.getCode());
+            return "OK";
+        }else if(getConfigServer().getIsVisible()){
+            LOG.warn("Wrong passcode or server is not visble" + request);
+            return "WRONG CODE";
+        }
+        return "SERVER IS OFF";
     }
 
 
@@ -65,8 +74,9 @@ public class ServerController {
     }
 
     @GetMapping("info")
-    public ConfigServer getServerInfo() {
+    public ConfigServer getServerInfo() throws SocketException {
         ConfigServer config = serviceLazyv.getConfigServer();
+        config.setNetInterfaces(config.initNetInterfaces());
         return config;
 //                new ServerInfoResponse(Util.getNetInterfaces(),config.getHostName(),config.getPasscode(),config.getServerState(),config.getPort());
     }
